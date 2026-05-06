@@ -30,7 +30,7 @@ export default function Sidebar() {
 
       <div className={styles.footer}>
         <p className={styles.footerLabel}>base url</p>
-        <p className={styles.footerValue}>Nginx server</p>
+        <p className={styles.footerValue}>Nginx server by arsh</p>
       </div>
     </aside>
   );

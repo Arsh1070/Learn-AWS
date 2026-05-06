@@ -31,7 +31,7 @@ jobs:
       # 🐳 Build Nginx (includes frontend build)
       - name: Build Nginx Image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/nginx:latest ./nginx
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/nginx:latest -f nginx/Dockerfile .
 
       - name: Push Nginx Image
         run: |

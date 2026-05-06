@@ -1,0 +1,61 @@
+version: "3.9"
+
+services:
+  nginx:
+    image: arshdocker1070/nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./certs:/etc/nginx/certs:ro
+    depends_on:
+      - app-1
+      - app-2
+      - app-3
+    restart: always
+
+  app-1:
+    image: arshdocker1070/backend:latest
+    container_name: app-1
+    environment:
+      - APP_NAME=app-1
+      - NODE_ENV=production
+    depends_on:
+      - mysql_arsh
+    restart: always
+
+  app-2:
+    image: arshdocker1070/backend:latest
+    container_name: app-2
+    environment:
+      - APP_NAME=app-2
+      - NODE_ENV=production
+    depends_on:
+      - mysql_arsh
+    restart: always
+
+  app-3:
+    image: arshdocker1070/backend:latest
+    container_name: app-3
+    environment:
+      - APP_NAME=app-3
+      - NODE_ENV=production
+    depends_on:
+      - mysql_arsh
+    restart: always
+
+  mysql_arsh:
+    image: mysql:8
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: app-user
+      MYSQL_PASSWORD: Arsh@1234
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: always
+
+volumes:
+  mysql_data:

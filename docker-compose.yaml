@@ -1,0 +1,61 @@
+
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+    #  - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certs:/etc/nginx/certs:ro
+    #  - ./my-app/dist:/usr/share/nginx/html:ro
+    depends_on:
+      - app-1
+      - app-2
+      - app-3
+    restart: always
+  app-1:
+    build:
+      context: ./backend
+    environment:
+      - APP_NAME=app-1
+    depends_on:
+      - mysql_arsh
+    restart: always
+
+  app-2:
+    build:
+      context: ./backend
+    environment:
+      - APP_NAME=app-2
+    depends_on:
+      - mysql_arsh
+    restart: always
+
+  app-3:
+    build:
+      context: ./backend
+    environment:
+      - APP_NAME=app-3
+    depends_on:
+      - mysql_arsh
+    restart: always
+
+  mysql_arsh:
+    image: mysql:8
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: app-user
+      MYSQL_PASSWORD: Arsh@1234
+    restart: always
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
